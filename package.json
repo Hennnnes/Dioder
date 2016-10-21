@@ -1,0 +1,15 @@
+{
+  "name": "Dioder",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-postcss": "^0.8.0"
+  },
+  "dependencies": {
+    "grunt-bowercopy": "^1.2.4",
+    "redoid": "^0.1.3"
+  }
+}

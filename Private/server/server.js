@@ -29,18 +29,22 @@ router.get('/', function(req, res) {
 app.use('/api', router);
 
 router.route('/color')
-  .post(function(req, res) {
-      var color = req.body.color;
-      if (redoid.isColorValid(color)) {
-        redoid.change(color);
-        res.json({message: 'color changed to: ' + color});
-      } else {
-        res.json({message: 'no valid color'});
-      }
-  })
   .get(function(req, res) {
       res.json({color: redoid.getColorHexValue()});
   })
+
+  router.route('/color/:color_id')
+
+      // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
+      .get(function(req, res) {
+          var color = req.params.color_id;
+          if (redoid.isColorValid(color)) {
+              redoid.change(color);
+              res.json({message: 'color set: ' + color});
+          } else {
+            res.json({message: 'oops. not a valid color'});
+          }
+      });
 
 router.route('/stop')
   .get(function(req, res) {

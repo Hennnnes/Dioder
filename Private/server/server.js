@@ -21,7 +21,7 @@ router.get('/', function(req, res) {
   res.json({ message: 'welcome to my api! '});
 });
 
-router.get('/start', function(req, res) {
+router.post('/start', function(req, res) {
   // init redoid
   redoid = Redoid({
     color: '#ffffff'
@@ -41,30 +41,31 @@ router.route('/color')
       }
   })
 
-  router.route('/color/:color_id')
-      .post(function(req, res) {
-          if (redoid != null) {
-            var color = req.params.color_id;
-            var colorCheck = isColor(color);
-            if (colorCheck != false) {
-              if (redoid.isColorValid(colorCheck)) {
-                    redoid.change(color);
-                    res.json({message: 'color set: ' + colorCheck});
-              } else {
-                  res.json({message: 'oops. not a valid color1'});
-              }
-            } else {
-              res.json({message: 'oops. not a valid color' + colorCheck + color});
-            }
+router.route('/color/:color_id')
+  .post(function(req, res) {
+      if (redoid != null) {
+        var color = req.params.color_id;
+        var colorCheck = isColor(color);
+        if (colorCheck != false) {
+          if (redoid.isColorValid(colorCheck)) {
+                redoid.change(color);
+                res.json({message: 'color set: ' + colorCheck});
           } else {
-            res.json({message: 'dioder turned off. turn on first'});
+              res.json({message: 'oops. not a valid color1'});
           }
-      });
+        } else {
+          res.json({message: 'oops. not a valid color' + colorCheck + color});
+        }
+      } else {
+        res.json({message: 'dioder turned off. turn on first'});
+      }
+  });
 
 router.route('/stop')
-  .get(function(req, res) {
+  .post(function(req, res) {
     if (redoid != null) {
       redoid.turnOff([0]);
+      redoid = null;
       res.json({message: 'Dioder turned off'});
     } else {
       res.json({message: 'Dioder already turned off.'});

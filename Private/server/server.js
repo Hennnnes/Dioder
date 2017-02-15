@@ -14,42 +14,62 @@ var port = process.env.PORT || 8080;
 
 var router = express.Router();
 
-// init redoid
-var redoid = Redoid({
-  color: '#ffffff'
-})
+var redoid;
 
-// sample route
+// start api page
 router.get('/', function(req, res) {
   res.json({ message: 'welcome to my api! '});
 });
 
+router.get('/start', function(req, res) {
+  // init redoid
+  redoid = Redoid({
+    color: '#ffffff'
+  })
+  res.json({ message: 'dioder turned on! '});
+});
 
 //  more routes for sample stuff
 app.use('/api', router);
 
 router.route('/color')
   .get(function(req, res) {
-      res.json({color: redoid.getColorHexValue()});
+      if (redoid != null) {
+        res.json({color: redoid.getColorHexValue()});
+      } else {
+        res.json({message: 'dioder off. Turn on first'});
+      }
   })
 
   router.route('/color/:color_id')
-
-      // get the bear with that id (accessed at GET http://localhost:8080/api/bears/:bear_id)
-      .get(function(req, res) {
-          var color = req.params.color_id;
-          if (redoid.isColorValid(color)) {
-              redoid.change(color);
-              res.json({message: 'color set: ' + color});
+      .post(function(req, res) {
+          if (redoid != null) {
+            var color = req.params.color_id;
+            var colorCheck = isColor(color);
+            if (colorCheck != false) {
+              if (redoid.isColorValid(colorCheck)) {
+                    redoid.change(color);
+                    res.json({message: 'color set: ' + colorCheck});
+              } else {
+                  res.json({message: 'oops. not a valid color1'});
+              }
+            } else {
+              res.json({message: 'oops. not a valid color' + colorCheck + color});
+            }
           } else {
-            res.json({message: 'oops. not a valid color'});
+            res.json({message: 'dioder turned off. turn on first'});
           }
       });
 
 router.route('/stop')
   .get(function(req, res) {
-    redoid.turnOff([0]);
-    res.json({message: 'Dioder turned off'});
+    if (redoid != null) {
+      redoid.turnOff([0]);
+      res.json({message: 'Dioder turned off'});
+    } else {
+      res.json({message: 'Dioder already turned off.'});
+    }
+
   })
 
 
@@ -58,37 +78,14 @@ app.listen(port);
 console.log('Magically Port: ' + port);
 
 
-
-// var redoid = Redoid({
-//     color: '#ff3200'
-// });
-//
-// app.get('/', function (req, res) {
-//       res.end( JSON.stringify('startseite'));
-// });
-//
-//
-// app.get('/start', function (req, res) {
-//       console.log( data );
-//       res.end( data );
-//    });
-// });
-//
-// app.get('/stop', function (req, res) {
-//   redoid.stop();
-//   console.log('redoid stopped');
-//   res.redirect('/');
-// });
-//
-//
-// app.get('/off', function (req, res) {
-//   redoid.turnOff([200]);
-//   console.log('Dioder turned off');
-//   res.redirect('/');
-// });
-//
-// var server = app.listen(8081, function () {
-//    var host = server.address().address
-//    var port = server.address().port
-//    console.log("Example app listening at http://%s:%s", host, port)
-// })
+function isColor(color) {
+  var withHash =  /(^#[0-9A-F]{6}$)|([0-9a-f]{6}$)|([0-9a-f]{3}$)|(^#[0-9A-F]{3}$)/i.test(color);
+  var withoutHash = /(^[0-9A-F]{6}$)|([0-9a-f]{6}$)|([0-9a-f]{3}$)|(^#[0-9A-F]{3}$)/i.test(color);
+  if (withHash) {
+    return color;
+  }
+  if (withoutHash) {
+    return '#' + color;
+  }
+  return false;
+}

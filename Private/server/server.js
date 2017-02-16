@@ -39,7 +39,6 @@ api.route('/start')
     // init redoid
     redoid = Redoid({
       color: '#ffffff',
-      loopTransition: true
     })
     res.json({ message: 'dioder turned on! '});
   });

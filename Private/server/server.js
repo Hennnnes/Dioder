@@ -38,17 +38,36 @@ api.route('/start')
   .post(function(req, res) {
     // init redoid
     redoid = Redoid({
-      color: '#ffffff',
+      color: '#ffffff'
     })
     res.json({ message: 'dioder turned on! '});
   });
 
 api.route('/sunrise')
   .post(function(req, res) {
-      if (redoid != null) {
+      if (redoid == null) {
 
+        // nice color to begin with
+        redoid = Redoid({
+          color: '#110100'
+        });
+
+        redoid.transition('#220300', 1500, 'easeInOutQuint');
+        redoid.transition('#250300', 1500, 'easeInOutQuint');
+        redoid.transition('#260600', 1500, 'easeInOutQuint');
+        redoid.transition('#300c00', 1500, 'easeInOutQuint');
+        redoid.transition('#401000', 1500, 'easeInOutQuint');
+        redoid.transition('#501501', 1500, 'easeInOutQuint');
+        redoid.transition('#602002', 1500, 'easeInOutQuint');
+        redoid.transition('#803002', 1500, 'easeInOutQuint');
+        redoid.transition('#a04004', 1500, 'easeInOutQuint');
+        redoid.transition('#b54505', 1500, 'easeInOutQuint');
+        redoid.transition('#d05007', 1500, 'easeInOutQuint');
+        redoid.transition('#de5010', 1500, 'easeInOutQuint');
+
+        res.json({message: 'sunrise done'});
       } else {
-        res.json({message: 'dioder off. Turn on first'});
+        res.json({message: 'turn lights off first!'});
       }
   });
 

@@ -38,7 +38,8 @@ api.route('/start')
   .post(function(req, res) {
     // init redoid
     redoid = Redoid({
-      color: '#ffffff'
+      color: '#ffffff',
+      loopTransition: true
     })
     res.json({ message: 'dioder turned on! '});
   });
@@ -58,10 +59,12 @@ api.route('/alert/:color_id')
     var colorCheck = isColor(color);
     if (colorCheck != false) {
       if (redoid.isColorValid(colorCheck)) {
-            var current = redoid.getColorHexValue;
-            redoid.transition(color, 1500);
-            redoid.transition(current, 1500);
-            res.json({message: 'color set: ' + colorCheck});
+          console.log('color valid: ' + colorCheck);
+            var current = redoid.getColorHexValue();
+            redoid.transition(colorCheck, 1500, 'easeInOutQuint');
+            redoid.transition(current, 1500, 'easeInOutQuint');
+            res.json({message: 'alert with color: ' + colorCheck});
+
       } else {
           res.json({message: 'oops. not a valid color1'});
       }

@@ -12,36 +12,75 @@ app.use(bodyParser.json());
 
 var port = process.env.PORT || 8080;
 
-var router = express.Router();
+var api = express.Router();
+
+var appRoutes = express.Router();
 
 var redoid;
 
+// basic routes for webapp
+app.use('/', appRoutes);
+
+appRoutes.get('/', function(req, res) {
+  res.render('index.html');
+})
+
+
+//  routes for api
+app.use('/api', api);
+
 // start api page
-router.get('/', function(req, res) {
+api.get('/', function(req, res) {
   res.json({ message: 'welcome to my api! '});
 });
 
-router.post('/start', function(req, res) {
-  // init redoid
-  redoid = Redoid({
-    color: '#ffffff'
-  })
-  res.json({ message: 'dioder turned on! '});
-});
+api.route('/start')
+  .post(function(req, res) {
+    // init redoid
+    redoid = Redoid({
+      color: '#ffffff'
+    })
+    res.json({ message: 'dioder turned on! '});
+  });
 
-//  more routes for sample stuff
-app.use('/api', router);
+api.route('/sunrise')
+  .post(function(req, res) {
+      if (redoid != null) {
 
-router.route('/color')
+      } else {
+        res.json({message: 'dioder off. Turn on first'});
+      }
+  });
+
+api.route('/alert/:color_id')
+  .post(function(req, res) {
+    var color = req.params.color_id;
+    var colorCheck = isColor(color);
+    if (colorCheck != false) {
+      if (redoid.isColorValid(colorCheck)) {
+            var current = redoid.getColorHexValue;
+            redoid.transition(color, 1500);
+            redoid.transition(current, 1500);
+            res.json({message: 'color set: ' + colorCheck});
+      } else {
+          res.json({message: 'oops. not a valid color1'});
+      }
+    } else {
+      res.json({message: 'oops. not a valid color' + colorCheck + color});
+    }
+  });
+
+
+api.route('/color')
   .get(function(req, res) {
       if (redoid != null) {
         res.json({color: redoid.getColorHexValue()});
       } else {
         res.json({message: 'dioder off. Turn on first'});
       }
-  })
+  });
 
-router.route('/color/:color_id')
+api.route('/color/:color_id')
   .post(function(req, res) {
       if (redoid != null) {
         var color = req.params.color_id;
@@ -61,7 +100,7 @@ router.route('/color/:color_id')
       }
   });
 
-router.route('/stop')
+api.route('/stop')
   .post(function(req, res) {
     if (redoid != null) {
       redoid.turnOff([0]);
@@ -71,7 +110,7 @@ router.route('/stop')
       res.json({message: 'Dioder already turned off.'});
     }
 
-  })
+  });
 
 
 // START Server

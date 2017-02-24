@@ -2,9 +2,13 @@ var express = require('express');
 var app = express();
 //var fs = require("fs");
 
-var bodyParser = require("body-parser");
+var bodyParser = require('body-parser');
 var Redoid = require('redoid');
 
+// ifttt webhook
+var webhook = require('express-ifttt-webhook');
+
+app.use(webhook());
 
 // body-parser to get data from post request
 app.use(bodyParser.urlencoded({ extended: true}));

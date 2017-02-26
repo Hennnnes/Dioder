@@ -2,6 +2,9 @@ var express = require('express');
 var app = express();
 //var fs = require("fs");
 
+// viewengine
+app.set('view engine', 'ejs');
+
 var bodyParser = require('body-parser');
 var Redoid = require('redoid');
 
@@ -26,7 +29,7 @@ var redoid;
 app.use('/', appRoutes);
 
 appRoutes.get('/', function(req, res) {
-  res.render('index.html');
+  res.render('index.ejs');
 })
 
 
@@ -50,7 +53,6 @@ api.route('/start')
 api.route('/sunrise')
   .post(function(req, res) {
       if (redoid == null) {
-
         // nice color to begin with
         redoid = Redoid({
           color: '#110100'
@@ -75,9 +77,9 @@ api.route('/sunrise')
       }
   });
 
-api.route('/alert/:color_id')
+api.route('/alert')
   .post(function(req, res) {
-    var color = req.params.color_id;
+    var color = req.body.color;
     var colorCheck = isColor(color);
     if (colorCheck != false) {
       if (redoid.isColorValid(colorCheck)) {
@@ -86,7 +88,6 @@ api.route('/alert/:color_id')
             redoid.transition(colorCheck, 1500, 'easeInOutQuint');
             redoid.transition(current, 1500, 'easeInOutQuint');
             res.json({message: 'alert with color: ' + colorCheck});
-
       } else {
           res.json({message: 'oops. not a valid color1'});
       }
@@ -94,7 +95,6 @@ api.route('/alert/:color_id')
       res.json({message: 'oops. not a valid color' + colorCheck + color});
     }
   });
-
 
 api.route('/color')
   .get(function(req, res) {
@@ -105,10 +105,10 @@ api.route('/color')
       }
   });
 
-api.route('/color/:color_id')
+api.route('/color')
   .post(function(req, res) {
       if (redoid != null) {
-        var color = req.params.color_id;
+        var color = req.body.color;
         var colorCheck = isColor(color);
         if (colorCheck != false) {
           if (redoid.isColorValid(colorCheck)) {
@@ -140,7 +140,7 @@ api.route('/stop')
 
 // START Server
 app.listen(port);
-console.log('Magically Port: ' + port);
+console.log('Listen on Port: ' + port);
 
 
 function isColor(color) {

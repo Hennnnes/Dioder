@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  </head>
+  <body>
+    <h1>Dioder</h1>
+
+    <form action="api/start" method="post">
+      <input type="submit" value="anschalten">
+    </form>
+
+    <form action="/api/color/" method="post">
+      <label for="color">Farbe:</label>
+      <input type="text" maxlength="6" name="color" id="color">
+
+      <input type="submit" value="speichern">
+    </form>
+
+    <form action="api/stop" method="post">
+      <input type="submit" value="ausschalten">
+    </form>
+
+    <form action="api/sunrise" method="post">
+      <input type="submit" value="Sonnenaufgang">
+    </form>
+
+  </body>
+</html>

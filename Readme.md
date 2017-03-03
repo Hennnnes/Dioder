@@ -1,6 +1,6 @@
 # Dioder
 
-This Repo contains some API calls to Dioder/ redoid.
+This Repo contains some API calls to Dioder/ redoid and a basic frontend.
 
 ## Functionality
 - API with JSON response

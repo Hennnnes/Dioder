@@ -2,31 +2,45 @@
 <html lang="de">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <link href="https://fonts.googleapis.com/css?family=Fira+Sans" rel="stylesheet">
+    <link rel="stylesheet" href="/Styles/style.css">
   </head>
   <body>
-    <h1>Dioder</h1>
 
-    <form action="api/start" method="post">
-      <input type="submit" value="anschalten">
-    </form>
+    <header>
+      <h1>Dioder</h1>
+    </header>
 
-    <form action="/api/color/" method="post">
-      <label for="color">Farbe:</label>
-      <input type="text" maxlength="6" name="color" id="color">
+    <main>
+      <section>
+        <form action="api/start" method="post">
+          <input type="submit" value="anschalten">
+        </form>
+      </section>
 
-      <input type="submit" value="speichern">
-    </form>
+      <section>
+        <form action="api/stop" method="post">
+          <input type="submit" value="ausschalten">
+        </form>
+      </section>
 
-    <form action="api/stop" method="post">
-      <input type="submit" value="ausschalten">
-    </form>
+      <section>
+        <form action="api/sunrise" method="post">
+          <input type="submit" value="Sonnenaufgang">
+        </form>
+      </section>
 
-    <form action="api/sunrise" method="post">
-      <input type="submit" value="Sonnenaufgang">
-    </form>
+      <section>
+        <form action="/api/color/" method="post">
+          <label for="color" hidden>Farbe:</label>
+          <input type="text" maxlength="6" name="color" id="color" placeholder="Farbe">
 
+          <input type="submit" value="sichern">
+        </form>
+      </section>
+
+    </main>
   </body>
 </html>

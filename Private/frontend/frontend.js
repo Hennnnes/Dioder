@@ -1,5 +1,7 @@
 var express = require('express');
 var app = module.exports = express();
+var Redoid = require('redoid');
+var redoid;
 
 // viewengine
 app.set('view engine', 'ejs');

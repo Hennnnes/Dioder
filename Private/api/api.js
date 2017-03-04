@@ -9,16 +9,16 @@ app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
 app.get('/api', function(req, res) {
-  res.json({message: 'welcome to /api'});
+  res.json({ message: 'welcome to /api' });
 });
 
 app.post('/api/start', function(req, res) {
     // init redoid
     if (!redoid) {
       redoid = Redoid({ color: '#ffffff' });
-      res.json({ message: 'dioder turned on! '});
+      res.json({ message: 'dioder turned on!' });
     } else {
-      res.json({ message: 'dioder already turned on! '});
+      res.json({ error: 'dioder already turned on!' });
     }
   });
 
@@ -28,9 +28,7 @@ app.post('/api/sunrise', function(req, res) {
     if (!redoid) {
 
       // init redoid with cool color
-      redoid = Redoid({
-        color: '#110100'
-      });
+      redoid = Redoid({ color: '#110100' });
 
       redoid.transition('#220300', time, 'easeInOutQuint');
       redoid.transition('#250300', time, 'easeInOutQuint');
@@ -45,47 +43,47 @@ app.post('/api/sunrise', function(req, res) {
       redoid.transition('#d05007', time, 'easeInOutQuint');
       redoid.transition('#de5010', time, 'easeInOutQuint');
 
-      res.json({message: 'sunrise done. ease time: ' + time});
+      res.json({ message: 'sunrise done. ease time: ' + time });
     } else {
-      res.json({message: 'turn lights off first!'});
+      res.json({ error: 'turn lights off first!' });
     }
 });
 
 app.post('/api/alert', function(req, res) {
   var color = req.body.color;
 
-  if (redoid.isColorValid(color)) {
+  if (color && redoid.isColorValid(color)) {
         var current = redoid.getColorHexValue();
 
         redoid.transition(color, 1500, 'easeInOutQuint');
         redoid.transition(current, 1500, 'easeInOutQuint');
 
-        res.json({message: 'alert with color: ' + color});
+        res.json({ message: 'alert with color: ' + color });
   } else {
-      res.json({message: 'oops. not a valid color'});
+      res.json({ error: 'oops. not a valid color' });
   }
 });
 
 app.get('/api/color', function(req, res) {
   if (redoid) {
-    res.json({color: redoid.getColorHexValue()});
+    res.json({ color: redoid.getColorHexValue() });
   } else {
-    res.json({message: 'dioder off. Turn on first'});
+    res.json({ error: 'dioder off. Turn on first' });
   }
 });
 
 app.post('/api/color', function(req, res) {
   var color = req.body.color;
 
-  if (redoid.isColorValid(color)) {
+  if (color && redoid.isColorValid(color)) {
     if (!redoid) {
-      redoid = Redoid({ color: postColor})
+      redoid = Redoid({ color: color})
     }
 
     redoid.change(color);
-    res.json({message: 'color set: ' + colorCheck});
+    res.json({ message: 'color set: ' + color });
   } else {
-    res.json({message: 'oops. not a valid color.'});
+    res.json({ error: 'oops. not a valid color.' });
   }
 });
 
@@ -93,8 +91,8 @@ app.post('/api/stop', function(req, res) {
   if (redoid) {
     redoid.turnOff([0]);
     redoid = null;
-    res.json({message: 'Dioder turned off'});
+    res.json({ message: 'Dioder turned off' });
   } else {
-    res.json({message: 'Dioder already turned off'});
+    res.json({ error: 'Dioder already turned off' });
   }
 });

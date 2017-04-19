@@ -26,22 +26,7 @@ app.post('/api/sunrise', function(req, res) {
     var time = parseInt(req.body.time) || 1500;
 
     if (!redoid) {
-
-      // init redoid with cool color
-      redoid = Redoid({ color: '#110100' });
-
-      redoid.transition('#220300', time, 'easeInOutQuint');
-      redoid.transition('#250300', time, 'easeInOutQuint');
-      redoid.transition('#260600', time, 'easeInOutQuint');
-      redoid.transition('#300c00', time, 'easeInOutQuint');
-      redoid.transition('#401000', time, 'easeInOutQuint');
-      redoid.transition('#501501', time, 'easeInOutQuint');
-      redoid.transition('#602002', time, 'easeInOutQuint');
-      redoid.transition('#803002', time, 'easeInOutQuint');
-      redoid.transition('#a04004', time, 'easeInOutQuint');
-      redoid.transition('#b54505', time, 'easeInOutQuint');
-      redoid.transition('#d05007', time, 'easeInOutQuint');
-      redoid.transition('#de5010', time, 'easeInOutQuint');
+      sunrise(time);
 
       res.json({ message: 'sunrise done. ease time: ' + time });
     } else {
@@ -96,3 +81,20 @@ app.post('/api/stop', function(req, res) {
     res.json({ error: 'Dioder already turned off' });
   }
 });
+
+sunrise(time) {
+    redoid = Redoid({ color: '#110100' });
+
+    redoid.transition('#220300', time, 'easeInOutQuint');
+    redoid.transition('#250300', time, 'easeInOutQuint');
+    redoid.transition('#260600', time, 'easeInOutQuint');
+    redoid.transition('#300c00', time, 'easeInOutQuint');
+    redoid.transition('#401000', time, 'easeInOutQuint');
+    redoid.transition('#501501', time, 'easeInOutQuint');
+    redoid.transition('#602002', time, 'easeInOutQuint');
+    redoid.transition('#803002', time, 'easeInOutQuint');
+    redoid.transition('#a04004', time, 'easeInOutQuint');
+    redoid.transition('#b54505', time, 'easeInOutQuint');
+    redoid.transition('#d05007', time, 'easeInOutQuint');
+    redoid.transition('#de5010', time, 'easeInOutQuint');
+}

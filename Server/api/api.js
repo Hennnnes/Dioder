@@ -1,8 +1,9 @@
-var express = require('express');
-var app = module.exports = express();
-var bodyParser = require('body-parser');
-var Redoid = require('redoid');
-var redoid;
+const express = require('express');
+const app = module.exports = express();
+const bodyParser = require('body-parser');
+const Redoid = require('redoid');
+let redoid;
+const port = 8080;
 
 // body-parser to get data from post request
 app.use(bodyParser.urlencoded({ extended: true}));
@@ -82,7 +83,12 @@ app.post('/api/stop', function(req, res) {
   }
 });
 
-sunrise(time) {
+// start Server
+app.listen(port, () => {
+    console.log('Listen on Port: ' + port);
+});
+
+function sunrise(time) {
     redoid = Redoid({ color: '#110100' });
 
     redoid.transition('#220300', time, 'easeInOutQuint');

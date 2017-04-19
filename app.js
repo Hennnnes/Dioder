@@ -7,10 +7,3 @@ var frontend = require('./frontend/frontend.js');
 app.use(express.static(__dirname + '/../Public'));
 app.use(api);
 app.use(frontend);
-
-
-var port = process.env.PORT || 8080;
-
-// start Server
-app.listen(port);
-console.log('Listen on Port: ' + port);

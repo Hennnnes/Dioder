@@ -1,20 +1,13 @@
 {
-  "name": "Dioder",
+  "name": "server",
   "version": "1.0.0",
-  "devDependencies": {
-    "browser-sync": "^2.18.6",
-    "gulp": "^3.9.1",
-    "gulp-autoprefixer": "^3.1.1",
-    "gulp-notify": "^2.2.0",
-    "gulp-sass": "^3.1.0"
+  "description": "",
+  "main": "api/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node api/server.js"
   },
   "dependencies": {
-    "body-parser": "^1.16.1",
-    "ejs": "^2.5.6",
-    "express": "^4.14.0",
-    "redoid": "~0.1.3"
-  },
-  "scripts": {
-    "start": "node Private/app.js"
+    "express": "^4.14.0"
   }
 }

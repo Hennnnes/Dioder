@@ -1,21 +1,48 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
+    constructor(props) {
+      super(props);
+
+      this.state = {
+          isOn: false
+      }
+
+      this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        const isOn = event.target.checked;
+        this.setState({ isOn });
+
+        var xhr = new XMLHttpRequest();
+
+        const url = (isOn) ? 'http://localhost:8080/api/stop' : 'http://localhost:8080/api/start';
+
+        xhr.open("POST", url, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({ isOn }));
+
+        console.log('now on');
+    }
+
+    render() {
+        return (
+          <div className="App">
+              <h1>Dioder</h1>
+
+              <form>
+
+                <input type="checkbox" name="isOn" onChange={this.handleChange} checked={this.state.isOn}/>
+
+
+                <label htmlFor="on">An / Aus</label>
+
+              </form>
+          </div>
+        );
+    }
 }
 
 export default App;

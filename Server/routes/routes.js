@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const Redoid = require('redoid');
-let redoid;
+var redoid;
 const routes = [
 	{
 		method: 'post',

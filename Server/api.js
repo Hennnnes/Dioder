@@ -4,6 +4,9 @@ const express = require('express'),
        routes = require('./routes/routes.js'),
        bodyParser = require('body-parser');
 
+	   var ip = '91.2.119.113',
+	   port = '80';
+
 // require config
 const config = require('./config/config.json');
 const mode = config.local;

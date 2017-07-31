@@ -12,6 +12,8 @@ const mode = config.local;
 app.use(bodyParser.urlencoded({ extended: true}));
 app.use(bodyParser.json());
 
+app.use('/', routes);
+
 // start Server
 app.listen(mode.port, () => {
     console.log('Listen on Port: ' + mode.port);

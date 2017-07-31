@@ -1,8 +1,39 @@
-const routes = require('express').Router();
+const router = require('express').Router();
 const Redoid = require('redoid');
 let redoid;
+const routes = [
+	{
+		method: 'post',
+		url: '/list',
+		param: null
+	},
+	{
+		method: 'get/post',
+		url: '/status',
+		param: null
+	},
+	{
+		method: 'post',
+		url: '/sunrise',
+		param: 'duration'
+	},
+	{
+		method: 'post',
+		url: '/alert',
+		param: 'color'
+	},
+	{
+		method: 'get/post',
+		url: '/color',
+		param: 'color'
+	}
+];
 
-routes.post('/api/status', (req, res) => {
+router.get('/list', (req, res) => {
+	res.json(routes);
+});
+
+router.post('/status', (req, res) => {
     // init redoid
     if (!isRedoidOn()) {
         redoid = Redoid({color: '#ffffff'});
@@ -14,7 +45,7 @@ routes.post('/api/status', (req, res) => {
     }
 });
 
-routes.get('/api/status', (res,req) => {
+router.get('/status', (req, res) => {
 	const status = (redoid) ? redoid.getColor() : false;
 
 	if (status) {
@@ -24,7 +55,7 @@ routes.get('/api/status', (res,req) => {
 	}
 });
 
-routes.post('/api/sunrise', (req, res) => {
+router.post('/sunrise', (req, res) => {
     var duration = parseInt(req.body.time) || 1500;
 
     if (!redoid) {
@@ -35,7 +66,7 @@ routes.post('/api/sunrise', (req, res) => {
     }
 });
 
-routes.post('/api/alert', (req, res) => {
+router.post('/alert', (req, res) => {
     var color = req.body.color;
 
     if (color && redoid.isColorValid(color)) {
@@ -50,15 +81,7 @@ routes.post('/api/alert', (req, res) => {
     }
 });
 
-routes.get('/api/color', (req, res) => {
-    if (isRedoidOn()) {
-        res.json({color: redoid.getColor()});
-    } else {
-        res.json({error: true, errorMsg: 'dioder off. Turn on first'});
-    }
-});
-
-routes.post('/api/color', (req, res) => {
+router.post('/color', (req, res) => {
     var color = req.body.color;
 
     if (color && redoid.isColorValid(color)) {
@@ -71,7 +94,15 @@ routes.post('/api/color', (req, res) => {
     }
 });
 
-function isRedoidOn(){
+router.get('/color', (req, res) => {
+    if (isRedoidOn()) {
+        res.json({color: redoid.getColor()});
+    } else {
+        res.json({error: true, errorMsg: 'dioder off. Turn on first'});
+    }
+});
+
+function isRedoidOn() {
 	if (redoid) {
 		return true;
 	}
@@ -94,3 +125,5 @@ function sunrise(duration) {
     redoid.transition('#d05007', duration, 'easeInOutQuint');
     redoid.transition('#de5010', duration, 'easeInOutQuint');
 }
+
+module.exports = router;

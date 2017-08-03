@@ -5,41 +5,80 @@ class App extends Component {
     constructor(props) {
       super(props);
 
-      this.state = {
-          isOn: false
+	  this.state = {
+		  baseURL: 'http://192.168.178.25:3000',
+          isOn: false,
+		  color: 'none',
+		  error: false,
       }
 
-      this.handleChange = this.handleChange.bind(this);
+	  this.handleChange = this.handleChange.bind(this);
+      this.changeLightStatus = this.changeLightStatus.bind(this);
+	  this.changeColor = this.changeColor.bind(this);
     }
 
-    handleChange(event) {
-        const isOn = event.target.checked;
-        this.setState({ isOn });
+	componentDidMount() {
+		fetch(`${this.state.baseURL}/status`).then((response) => {
+			return response.json();
+		}).then((json) => {
+			this.setState( {isOn: !json.error} );
+		}).catch((err) => {
+			console.log( err);
+		});
 
-        var xhr = new XMLHttpRequest();
+		fetch(`${this.state.baseURL}/color`).then((response) => {
+			return response.json();
+		}).then((json) => {
+			this.setState({color: json.color})
+		}).catch((err) => {
+			console.log( err);
+		});
+	}
 
-        const url = (isOn) ? 'http://localhost:8080/api/stop' : 'http://localhost:8080/api/start';
+	handleChange(event) {
+	  this.setState({color: event.target.value});
+	}
 
-        xhr.open("POST", url, true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.send(JSON.stringify({ isOn }));
-
-        console.log('now on');
+    changeLightStatus() {
+		fetch(`${this.state.baseURL}/status`, {method: 'POST'}).then((response) => {
+			this.setState( {isOn: !this.state.isOn} );
+			return response.json();
+		}).catch((err) => {
+			console.log( err);
+		});
     }
+
+	changeColor(event) {
+		fetch(`${this.state.baseURL}/color`, {
+			method: 'POST',
+			headers: {
+    			'Content-Type': 'application/json'
+  			},
+			body: JSON.stringify({'color': this.state.color})
+		}).then((response) => {
+			return response.json();
+		}).then((json) => {
+			const error = (json.error) ? true : false;
+			this.setState({ error })
+		}).catch((err) => {
+			console.log( err);
+		});
+
+		event.preventDefault();
+	}
 
     render() {
         return (
           <div className="App">
-              <h1>Dioder</h1>
+              	<h1>Dioder</h1>
 
-              <form>
+				<div className={"error " + (this.state.error ? '' : 'hidden')}>Fehler</div>
 
-                <input type="checkbox" name="isOn" onChange={this.handleChange} checked={this.state.isOn}/>
+				<form onSubmit={this.changeColor}>
+					<input type="text" value={this.state.color} placeholder={this.state.color} onChange={this.handleChange}/>
+				</form>
 
-
-                <label htmlFor="on">An / Aus</label>
-
-              </form>
+				<button onClick={this.changeLightStatus} >{this.state.isOn ? 'ausschalten' : 'anschalten'}</button>
           </div>
         );
     }

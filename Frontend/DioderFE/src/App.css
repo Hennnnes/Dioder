@@ -1,3 +1,51 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 .App {
-  text-align: center;
+	font-family: system-ui, 'sans-serif';
+	color: #333;
+	text-align: center;
+	width: 400px;
+	margin: 0 auto;
+	height: 100vh;
+}
+
+.hidden {
+	display: none;
+}
+
+.error {
+	border: 5px solid red;
+	font-size: 4vw;
+	color: red;
+	font-weight: bold;
+	width: calc(100% - 20px);
+	margin: 0 auto 10px auto;
+}
+
+h1 {
+	font-size: 10vw;
+	margin-bottom: 20vh;
+}
+
+button {
+	border: 5px solid #333;
+	background-color: white;
+	font-size: 20px;
+	font-weight: bold;
+	padding: 10px 20px;
+}
+
+input[type="text"] {
+	border: 5px solid #333;
+	width: calc(100% - 20px);
+	margin: 0 auto;
+	padding: 10px 20px;
+	font-size: 20px;
+	font-weight: bold;
+	margin-bottom: 10px;
+	color: #333;
 }

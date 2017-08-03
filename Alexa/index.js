@@ -8,7 +8,9 @@ based on
 'use strict';
 
 const Alexa = require('alexa-sdk');
-const storage = require('./storage'); // for what??
+const request = require('request');
+const storage = require('./storage');
+
 
 
 exports.handler = function (event, context, callback) {
@@ -29,7 +31,7 @@ const handlers = {
 
         storage.save(color, this.event.session, (color) => {
             response = `Ok! ${color} set`;
-            this.emit(':ask', response);
+            this.emit(':tell', response);
         });
     },
 
@@ -39,7 +41,7 @@ const handlers = {
 
         storage.getColor(this.event.session, (color) => {
             response = `Currenct color is ${color}`;
-            this.emit(':ask', response);
+            this.emit(':tell', response);
         });
     },
 

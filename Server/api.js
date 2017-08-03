@@ -21,17 +21,17 @@ app.use(bodyParser.json());
 // allow cross origin
 app.use(cors());
 
-app.use(function(req, res, next) {
-    var user = auth(req);
-
-    if (user === undefined || user['name'] !== 'username' || user['pass'] !== 'password') {
-        res.statusCode = 401;
-        res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
-        res.end('Unauthorized');
-    } else {
-        next();
-    }
-});
+// app.use(function(req, res, next) {
+//     var user = auth(req);
+//
+//     if (user === undefined || user['name'] !== 'username' || user['pass'] !== 'password') {
+//         res.statusCode = 401;
+//         res.setHeader('WWW-Authenticate', 'Basic realm="MyRealmName"');
+//         res.end('Unauthorized');
+//     } else {
+//         next();
+//     }
+// });
 
 app.use('/', routes);
 

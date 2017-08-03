@@ -49,7 +49,7 @@ router.get('/status', (req, res) => {
 	const status = (redoid) ? redoid.getColor() : false;
 
 	if (status) {
-		res.json({ color: status });
+		res.json({ error: false, color: status });
 	} else {
 		res.json({error: true, errorMsg: 'Dioder not turned on'});
 	}

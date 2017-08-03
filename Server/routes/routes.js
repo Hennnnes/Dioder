@@ -46,7 +46,7 @@ router.post('/status', (req, res) => {
 });
 
 router.get('/status', (req, res) => {
-	const status = (redoid) ? redoid.getColor() : false;
+	const status = (redoid) ? redoid.getColorHexValue() : false;
 
 	if (status) {
 		res.json({ error: false, color: status });
@@ -96,7 +96,7 @@ router.post('/color', (req, res) => {
 
 router.get('/color', (req, res) => {
     if (isRedoidOn()) {
-        res.json({color: redoid.getColor()});
+        res.json({color: redoid.getColorHexValue()});
     } else {
         res.json({error: true, errorMsg: 'dioder off. Turn on first'});
     }

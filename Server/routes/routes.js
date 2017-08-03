@@ -3,7 +3,7 @@ const Redoid = require('redoid');
 var redoid;
 const routes = [
 	{
-		method: 'post',
+		method: 'get',
 		url: '/list',
 		param: null
 	},
